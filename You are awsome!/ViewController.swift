@@ -9,17 +9,19 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("did work!")
-        messageLabel.text = "You are Fabulous"
+        messageLabel.text = ""
     }
 
     @IBAction func messageButtonPressed(_ sender: UIButton) {
-        print("button pressed!")
         messageLabel.text = "You are Awsome"
+        imageView.image = UIImage.init(named: "image0")
     }
     
 }
