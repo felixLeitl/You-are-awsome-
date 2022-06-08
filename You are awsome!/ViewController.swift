@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     
     let numberOfImages = 9
+    var messageNumber = -1
+    var imageNumber = -1
     
     
     override func viewDidLoad() {
@@ -29,9 +31,22 @@ class ViewController: UIViewController {
                         "You Are Da Bomb!",
                         "You Are Unbelievable!",
                         "This Message is way to long for one line!"]
-                        
-        messageLabel.text = messages[Int.random(in: 0...messages.count-1)]
-        imageView.image = UIImage(named: "image" + String(Int.random(in: 0...numberOfImages)))
+        var newMessageNumber: Int
+       
+        var newImageNumber: Int
+        
+        repeat{
+            newImageNumber = Int.random(in: 0...numberOfImages)
+
+        }while newImageNumber == imageNumber
+        imageNumber = newImageNumber
+        imageView.image = UIImage(named: "image\(imageNumber)")
+        
+        repeat{
+            newMessageNumber = Int.random(in: 0...messages.count-1)
+        }while newMessageNumber == messageNumber
+        messageNumber = newMessageNumber
+        messageLabel.text = messages[messageNumber]
     }
 }
 
