@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     
@@ -16,6 +17,7 @@ class ViewController: UIViewController {
     let numberOfImages = 9
     var messageNumber = -1
     var imageNumber = -1
+    var audioPlayer: AVAudioPlayer!
     
     
     override func viewDidLoad() {
@@ -47,6 +49,17 @@ class ViewController: UIViewController {
         }while newMessageNumber == messageNumber
         messageNumber = newMessageNumber
         messageLabel.text = messages[messageNumber]
+        
+        if let sound = NSDataAsset(name: "sound0"){
+            do{
+                try audioPlayer = AVAudioPlayer(data: sound.data)
+                audioPlayer.play()
+            }catch{
+                print("ERROR: \(error.localizedDescription)")
+            }
+        }else{
+            print("ERROR: 404")
+        }
     }
 }
 
