@@ -14,9 +14,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
-    let numberOfImages = 9
+    let numberOfImages = 10
+    let numberOfSounds = 5
     var messageNumber = -1
     var imageNumber = -1
+    var soundNumber = -1
     var audioPlayer: AVAudioPlayer!
     
     
@@ -25,32 +27,8 @@ class ViewController: UIViewController {
         messageLabel.text = ""
     }
     
-    @IBAction func messageButtonPressed(_ sender: UIButton) {
-        
-        let messages = ["You Are Awsome",
-                        "You Are Great!",
-                        "You Are A Legend!",
-                        "You Are Da Bomb!",
-                        "You Are Unbelievable!",
-                        "This Message is way to long for one line!"]
-        var newMessageNumber: Int
-       
-        var newImageNumber: Int
-        
-        repeat{
-            newImageNumber = Int.random(in: 0...numberOfImages)
-
-        }while newImageNumber == imageNumber
-        imageNumber = newImageNumber
-        imageView.image = UIImage(named: "image\(imageNumber)")
-        
-        repeat{
-            newMessageNumber = Int.random(in: 0...messages.count-1)
-        }while newMessageNumber == messageNumber
-        messageNumber = newMessageNumber
-        messageLabel.text = messages[messageNumber]
-        
-        if let sound = NSDataAsset(name: "sound0"){
+    func playSound(name: String){
+        if let sound = NSDataAsset(name: name){
             do{
                 try audioPlayer = AVAudioPlayer(data: sound.data)
                 audioPlayer.play()
@@ -61,5 +39,30 @@ class ViewController: UIViewController {
             print("ERROR: 404")
         }
     }
+    
+    func nonRepeatingRandom(originalNumber: Int, upperBound: Int) -> Int{
+    var newNumber: Int
+        repeat{
+            newNumber = Int.random(in: 0...upperBound-1)
+        }while newNumber == originalNumber
+        return newNumber
+    }
+    
+    @IBAction func messageButtonPressed(_ sender: UIButton) {
+        
+        let messages = ["You Are Awsome",
+                        "You Are Great!",
+                        "You Are A Legend!",
+                        "You Are Da Bomb!",
+                        "You Are Unbelievable!",
+                        "This Message is way to long for one line!"]
+       
+        soundNumber = nonRepeatingRandom(originalNumber: soundNumber, upperBound: numberOfSounds)
+        imageNumber = nonRepeatingRandom(originalNumber: imageNumber, upperBound: numberOfImages)
+        messageNumber = nonRepeatingRandom(originalNumber: messageNumber, upperBound: messages.count)
+        playSound(name: "sound\(soundNumber)")
+        imageView.image = UIImage(named: "image\(imageNumber)")
+        messageLabel.text = messages[messageNumber]
+    }
 }
-
+ 
